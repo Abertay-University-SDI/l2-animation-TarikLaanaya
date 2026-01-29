@@ -6,6 +6,18 @@ Level::Level(sf::RenderWindow& hwnd, Input& in) :
 	m_snake.setRadius(20);
 	m_snake.setPosition({ 50, 50 });
 	m_snake.setFillColor(sf::Color::Green);
+
+	if (!m_playerTex.loadFromFile("gfx/sheep_sheet.png"))
+	{
+		std::cerr << "Could Not Find The Sheep Sheet File!";
+	}
+	else
+	{
+		m_player.setTexture(&m_playerTex);
+		m_player.setTextureRect(sf::IntRect({ 0,0 }, { 64,64 }));
+		m_player.setSize({ 64, 64 });
+		m_player.setPosition({ 0, 0 });
+	}
 }
 
 // handle user input
@@ -102,6 +114,7 @@ void Level::update(float dt)
 		std::cout << "Game over";
 	}
 
+	m_player.update(dt);
 }
 
 // Render level
@@ -109,6 +122,7 @@ void Level::render()
 {
 	beginDraw();
 	m_window.draw(m_snake);
+	m_window.draw(m_player);
 	endDraw();
 }
 
